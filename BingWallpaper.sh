@@ -1,7 +1,11 @@
-#如需收集每日美图去掉下面注释设置保存文件夹路径
-savepath="/volume1/WallPaper/img" #改成自己本地的地址如果不需要则注释
+#!/usr/bin/env bash
+
+# 如需收集每日美图去掉下面注释设置保存文件夹路径
+wallpaper_save_path="/volume1/WallPaper/img" #改成自己本地的地址如果不需要则注释
+
 #在FileStation里面右键文件夹属性可以看到路径
 pic=$(wget -t 5 --no-check-certificate -qO- "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN")
+
 #API图片库根据自己所需的图片库进行配置，这里默认使用的是网上的bing （必应图库API）
 #随机天数，随机选中7天内壁纸的图片"+$[RANDOM%7]+" idx = 0-6 天内的图片
 # pic=$(wget -t 5 --no-check-certificate -qO- "https://www.bing.com/HPImageArchive.aspx?format=js&idx="+$[RANDOM%7]+"&n=1")
@@ -42,8 +46,10 @@ sed -i s/login_welcome_msg=.*//g /etc/synoinfo.conf
 # echo "login_welcome_msg="$title"">>/etc/synoinfo.conf
 #将背景图片信息以 标题-地点 From bing.ioliu.cn 传送至登录页面的欢迎消息对话框中。
 echo "login_welcome_msg="$title""-""$word"">>/etc/synoinfo.conf
-if (echo $savepath|grep -q '/') then
-# cp -f $tmpfile $savepath/$date@$title-$word.jpg #这段无效不知道为什么保存不了文件
-cp -f $tmpfile $savepath
+
+if (echo $wallpaper_save_path|grep -q '/') then
+# cp -f $tmpfile $wallpaper_save_path/$date@$title-$word.jpg #这段无效不知道为什么保存不了文件
+cp -f $tmpfile $wallpaper_save_path
 fi
+
 rm -rf /tmp/*_bing.jpg
